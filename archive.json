@@ -1,0 +1,370 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2020-06-24T09:36:35.238323+00:00",
+  "repo": "ietf-rats-wg/basic-yang-module",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU1NTAwMTA3Nzc=",
+      "title": "A minor mistake of duplicate description",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/issues/1",
+      "state": "CLOSED",
+      "author": "William-PanWei",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The description of COSE_Algorithm-value\r\nhttps://github.com/ietf-rats-wg/basic-yang-module/blob/da656b35802d86fcf2caad972b23de5c9cf59986/ietf-tpm-remote-attestation.yang#L247\r\nis the same as that of TPM_ALG_ID-value.\r\nhttps://github.com/ietf-rats-wg/basic-yang-module/blob/da656b35802d86fcf2caad972b23de5c9cf59986/ietf-tpm-remote-attestation.yang#L236",
+      "createdAt": "2020-01-15T07:22:38Z",
+      "updatedAt": "2020-03-09T11:48:37Z",
+      "closedAt": "2020-03-09T11:48:37Z",
+      "comments": [
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks! Fixed in commit https://github.com/ietf-rats-wg/basic-yang-module/commit/b0c9e94f32f7304cc8cb1565e00aabba754e7d70.",
+          "createdAt": "2020-03-09T11:48:37Z",
+          "updatedAt": "2020-03-09T11:48:37Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWU1NzYzMzYzNjg=",
+      "title": "Please ensure that the merge result in the old repo is reflected here.",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/issues/3",
+      "state": "CLOSED",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Please confirm that all changes made in https://github.com/ietf-rats/draft-birkholz-rats-basic-yang-module/pull/17 are reflected here.",
+      "createdAt": "2020-03-05T15:28:48Z",
+      "updatedAt": "2020-03-09T11:49:18Z",
+      "closedAt": "2020-03-09T11:49:17Z",
+      "comments": [
+        {
+          "author": "haknmcaobin",
+          "authorAssociation": "NONE",
+          "body": "Thanks Henk :)",
+          "createdAt": "2020-03-06T03:10:00Z",
+          "updatedAt": "2020-03-06T03:10:00Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks! Fixed in PR #4.",
+          "createdAt": "2020-03-09T11:49:17Z",
+          "updatedAt": "2020-03-09T11:49:17Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "MDU6SXNzdWU2MzEwOTIxMTY=",
+      "title": "Multiple issues",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/issues/6",
+      "state": "OPEN",
+      "author": "ericvoit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are several issues with the current YANG model.  I am grouping them as one as I have a single YANG model pull request to cover all of these.  \r\n\r\nThe issues I believe need to be addressed include:\r\n\r\n(1) PCR numbers should be their own type, not a UINT8.  PCRs should be limited to [0..31]\r\n\r\n(2) We should use ENUMs instead of strings for TCG and IETF crypto algorithm types.  Strings allow lots of errors to be introduced which we can protect using a larger, more detailed ENUM construct.\r\n\r\n(3) Most devices do not have multiple line cards.  Because of that, we should not have nested keys of [node id] [tpm name].  This adds unnecessary complexity for the vast majority of users.  Instead the tpm should have a mandatory leafref back to node-id when compute-nodes is not null.\r\n\r\n(4) The YANG doctors will not let us have a TPM-Name of \"ALL\".  Instead of \"ALL\" we should be able to assume that an RPC means all hardware based TPMs if a specific TPM is not named in the RPC.   Note that this means that we *should not* use TPM-name as a KEY in any RPC. \r\n\r\n(5) We should add leaf for a unique TPM-Path.  It might be claimed this is irrelevant with the existing key structure, but\r\n- likely the YANG model itself will learn the TPM this way after boot.\r\n- You could add/remove/migrate new virtual TPMs, more easily only re-allocating an *existing* path when the new vTPM is activated.\r\n\r\n(6) We should have optional YANG features for TPM1.2 and TPM2.0 so that RPCs are not exposed when there are no such TPMs of that type are supported.\r\n\r\n(7) We should great new grouping for the log algorithm types.  These groupings can be reused for a Telemetry/Subscription feed of individual log entries.  Other log types like those proposed for \"netequip boot\" by Bin Cao can then be merged.\r\n",
+      "createdAt": "2020-06-04T19:31:59Z",
+      "updatedAt": "2020-06-17T20:49:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ericvoit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I placed this as a separate issue from the Pull Request as *almost* all issues are addressed in the pull request.   For (2), I only added some of the relevant ENUMs.  Others will be added should people agree with the direction of the pull request.",
+          "createdAt": "2020-06-04T21:09:47Z",
+          "updatedAt": "2020-06-04T21:09:47Z"
+        },
+        {
+          "author": "ericvoit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Based on some feedback, made the following changes:\r\n(8) Removed 'TPM-path' as a unique identifier for RPCs.   Instead 'certificate-name' is used.  This allows for a cleaner certificate migration path, and won't have issues with reboots.\r\n\r\n(9) Extracted into a group TPM2_ALG_ID",
+          "createdAt": "2020-06-09T20:16:08Z",
+          "updatedAt": "2020-06-09T20:16:08Z"
+        },
+        {
+          "author": "ericvoit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Other issues included in latest proposal:\r\n\r\n(10) Separate out crypto-algorithm types into a separate draft\r\n\r\n(11) Not much reason in building choices for IETF algorithm types when the TPMs need to follow TCG types.\r\n\r\n(12) Leafrefs for certificate datastores should simplify the storage of this information should people not want to create separate structures.",
+          "createdAt": "2020-06-17T20:49:20Z",
+          "updatedAt": "2020-06-17T20:49:20Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 2,
+      "id": "MDExOlB1bGxSZXF1ZXN0MzgxMzc2ODY0",
+      "title": "Fix typo for hash operation type",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/2",
+      "state": "MERGED",
+      "author": "puiterwijk",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-02-28T12:56:43Z",
+      "updatedAt": "2020-03-02T12:05:57Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "da656b35802d86fcf2caad972b23de5c9cf59986",
+      "headRepository": "puiterwijk/basic-yang-module",
+      "headRefName": "fixtypo",
+      "headRefOid": "9f91dbe25bb61252c16c2b8086b2e3f9cff72cc0",
+      "closedAt": "2020-02-28T13:55:27Z",
+      "mergedAt": "2020-02-28T13:55:27Z",
+      "mergedBy": "henkbirkholz",
+      "mergeCommit": {
+        "oid": "7adaa6cd1fb5d1d422a706a8ee2315218dacf8ae"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MzY3MTQ5MDQ4",
+          "commit": {
+            "abbreviatedOid": "9f91dbe"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "extent -> extend\r\n\r\nthx! I would have never catched that, I htink.",
+          "createdAt": "2020-03-02T12:05:57Z",
+          "updatedAt": "2020-03-02T12:05:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mzg0OTA0NjQ4",
+      "title": "modify without adding NetEquip boot.",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/4",
+      "state": "MERGED",
+      "author": "haknmcaobin",
+      "authorAssociation": "FIRST_TIME_CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "merged changes from https://github.com/ietf-rats/draft-birkholz-rats-basic-yang-module/pull/17\r\n",
+      "createdAt": "2020-03-06T16:15:45Z",
+      "updatedAt": "2020-03-09T10:30:34Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "7adaa6cd1fb5d1d422a706a8ee2315218dacf8ae",
+      "headRepository": "haknmcaobin/basic-yang-module",
+      "headRefName": "bcao-branch",
+      "headRefOid": "41d654e4ae3db0f3d949c06981b8ad41a7f93dc6",
+      "closedAt": "2020-03-09T10:30:34Z",
+      "mergedAt": "2020-03-09T10:30:34Z",
+      "mergedBy": "henkbirkholz",
+      "mergeCommit": {
+        "oid": "7e2845719f4bac333fb2c5ab05956974e5e19f02"
+      },
+      "comments": [
+        {
+          "author": "shwethab",
+          "authorAssociation": "NONE",
+          "body": "LGTM",
+          "createdAt": "2020-03-09T10:25:42Z",
+          "updatedAt": "2020-03-09T10:25:42Z"
+        },
+        {
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All items very reviewed and are in line with current discussions (incl. architecture)",
+          "createdAt": "2020-03-09T10:30:22Z",
+          "updatedAt": "2020-03-09T10:30:22Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mzg1NTk1NTE5",
+      "title": "Final changes",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/5",
+      "state": "OPEN",
+      "author": "haknmcaobin",
+      "authorAssociation": "FIRST_TIME_CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Besides \"bios\" and \"ima\", adding third log type \"netequip boot\".\r\nAnd fixs some typos and missing changes.",
+      "createdAt": "2020-03-09T13:42:20Z",
+      "updatedAt": "2020-03-09T13:46:07Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "67d1ebe13d4ce381c7b6b6fb1d56b4d15b88b902",
+      "headRepository": "haknmcaobin/basic-yang-module",
+      "headRefName": "bcao-branch",
+      "headRefOid": "78489090108526e691d6b292aab7007475941649",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 7,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDI4MDY0MzQ1",
+      "title": "Matches to the Issue #6: Multiple Issues",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/7",
+      "state": "CLOSED",
+      "author": "ericvoit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are several issues with the current YANG model. I am grouping them as one as I have a single YANG model pull request to cover all of these.\r\n\r\nThe issues I believe need to be addressed include:\r\n\r\n(1) PCR numbers should be their own type, not a UINT8. PCRs should be limited to [0..31]\r\n\r\n(2) We should use ENUMs instead of strings for TCG and IETF crypto algorithm types. Strings allow lots of errors to be introduced which we can protect using a larger, more detailed ENUM construct.\r\n\r\n(3) Most devices do not have multiple line cards. Because of that, we should not have nested keys of [node id] [tpm name]. This adds unnecessary complexity for the vast majority of users. Instead the tpm should have a mandatory leafref back to node-id when compute-nodes is not null.\r\n\r\n(4) The YANG doctors will not let us have a TPM-Name of \"ALL\". Instead of \"ALL\" we should be able to assume that an RPC means all hardware based TPMs if a specific TPM is not named in the RPC. Note that this means that we should not use TPM-name as a KEY in any RPC.\r\n\r\n(5) We should add leaf for a unique TPM-Path. It might be claimed this is irrelevant with the existing key structure, but\r\n\r\nlikely the YANG model itself will learn the TPM this way after boot.\r\nYou could add/remove/migrate new virtual TPMs, more easily only re-allocating an existing path when the new vTPM is activated.\r\n(6) We should have optional YANG features for TPM1.2 and TPM2.0 so that RPCs are not exposed when there are no such TPMs of that type are supported.\r\n\r\n(7) We should great new grouping for the log algorithm types. These groupings can be reused for a Telemetry/Subscription feed of individual log entries. Other log types like those proposed for \"netequip boot\" by Bin Cao can then be merged.",
+      "createdAt": "2020-06-04T20:15:15Z",
+      "updatedAt": "2020-06-09T20:27:01Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "67d1ebe13d4ce381c7b6b6fb1d56b4d15b88b902",
+      "headRepository": "ericvoit/basic-yang-module",
+      "headRefName": "patch-1",
+      "headRefOid": "4c1084030429ab96abca9db9c66535137913e513",
+      "closedAt": "2020-06-09T20:27:01Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "ericvoit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closed in favor of the new file associated with #8 ",
+          "createdAt": "2020-06-09T20:27:01Z",
+          "updatedAt": "2020-06-09T20:27:01Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDMyMDQ0MzUx",
+      "title": "Update ietf-tpm-remote-attestation.yang",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/8",
+      "state": "MERGED",
+      "author": "ericvoit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See comments in Issue #6",
+      "createdAt": "2020-06-09T20:26:01Z",
+      "updatedAt": "2020-06-24T09:36:05Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "67d1ebe13d4ce381c7b6b6fb1d56b4d15b88b902",
+      "headRepository": "ericvoit/basic-yang-module",
+      "headRefName": "patch-2",
+      "headRefOid": "8a4f689a3c93d22301f652c61c0449868fb20a34",
+      "closedAt": "2020-06-24T09:36:05Z",
+      "mergedAt": "2020-06-24T09:36:05Z",
+      "mergedBy": "henkbirkholz",
+      "mergeCommit": {
+        "oid": "fb98cf238892e16789f5694482895f2cb4b35bc6"
+      },
+      "comments": [
+        {
+          "author": "ericvoit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I made one final suggested change for the next iteration of the YANG file for the upcoming v02 charra release.   This is that Hash Algo should be the key to the set of PCRs which needed to be attested.",
+          "createdAt": "2020-06-23T16:06:47Z",
+          "updatedAt": "2020-06-23T16:06:47Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NDI4MTM0MDgy",
+          "commit": {
+            "abbreviatedOid": "37afe6b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-06-10T14:48:58Z",
+          "updatedAt": "2020-06-10T14:48:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDM4NzE1MDM2",
+      "title": "Changes to support Issues #6 & #7",
+      "url": "https://github.com/ietf-rats-wg/basic-yang-module/pull/9",
+      "state": "OPEN",
+      "author": "ericvoit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Allows the YANG model changes I have suggested to be merged into the overall document",
+      "createdAt": "2020-06-23T17:30:10Z",
+      "updatedAt": "2020-06-23T17:30:10Z",
+      "baseRepository": "ietf-rats-wg/basic-yang-module",
+      "baseRefName": "master",
+      "baseRefOid": "67d1ebe13d4ce381c7b6b6fb1d56b4d15b88b902",
+      "headRepository": "ericvoit/basic-yang-module",
+      "headRefName": "patch-3",
+      "headRefOid": "9d36b315b2c3854faf0206c2169ca0dcb6657003",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
